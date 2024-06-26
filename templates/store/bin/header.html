@@ -1,0 +1,127 @@
+ <style>
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+
+        .nav-item.dropdown:hover > .dropdown-menu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+
+        .dropdown-menu {
+            width: auto;
+            height: auto;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .dropdown-menu li {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 6x;
+            display: block;
+            width: 100%;
+            color: #000;
+            background-color: #fff;
+        }
+
+
+        .dropdown-menu a:hover {
+            color: #fff;
+            background-color: #007bff;
+        }
+
+        .apes{
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+
+        }
+    </style>
+{% load static %}
+<header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="{% url 'store:index' %}" class="appname">Smartphone Shop</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <div class="collapse navbar-collapse offset show" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+            <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'store:index' %}">Главная</a>
+            </li>
+            <li class="nav-item {% if '/smartphones' in request.path or '/brand/' in request.path %}active{% endif %} submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Магазин</a>
+                <ul class="dropdown-menu">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'store:smartphones' %}"> Все смартфоны </a></li>
+
+                  {% for p in brn %}
+                  <li class="nav-item"><a class="nav-link" href="{% url 'store:brand' id=p.id %}">{{p.name}} </a></li>
+                  {% endfor %}
+                </ul>
+                </li>
+
+
+            <li class="nav-item {% if request.path == '/contact/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'store:contact' %}">Контакты</a>
+            </li>
+            </ul>
+
+            <ul class="nav-shop">
+                <li class="nav-item">
+                        <form action="{% url 'search:search' %}" method="GET">
+                            <div class="input-group search_box">
+                                <input type="text" class="form-control" placeholder="Искать смартфон" name="q" value="{{ search }}">
+                                <button class="btn searchSm" type="submit" ><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                </li>
+              <li class="nav-item"><button><a href="{% url 'cart:cart_details' %}"><i class="ti-shopping-cart"></i><span class="nav-shop__circle" id="gettotalcart" >{{ cart|length }}</span></a></button> </li>
+              {% if request.user.is_authenticated %}
+
+
+                   <li class="nav-item submenu dropdown">
+                      <a href="#" class="nav-link dropdown-toggle apes" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}</a>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item"><a class="nav-link" href="{% url 'order:order_list' %}">Мои заказы</a></li>
+                          <li class="nav-item"><a class="nav-link" href="{% url 'store:signout' %}">Выйти</a></li>
+
+                      </ul>
+                  </li>
+
+
+              {% else %}
+                    <li class="nav-item"><a class="button button-header" href="{% url 'store:signin' %}">Войти</a></li>
+              {% endif %}
+
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+    </div>
+  </header>
+
+

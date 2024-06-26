@@ -1,0 +1,112 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load customfunction %}
+{% block container %}
+
+  <main class="site-main">
+
+    <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-5 d-none d-sm-block">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static 'img/main_logo.jpg' %}" alt="">
+            </div>
+          </div>
+          <div class="col-s m-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+            <div class="hero-banner__content">
+              <h5>Исследовать магазин - это весело</h5>
+              <h2>Ознакомьтесь с нашими смартфонами Премиум-класса</h2>
+			<p>Добро пожаловать в SmartphoneShop! Насладитесь удобством онлайн-покупок, где каждый смартфон - это инновация, пользоваться которой приятно.</p>
+                <a class="button button-hero" href="{% url 'store:smartphones' %}">Исследовать</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ <section class="section-margin calc-60px">
+      <div class="container">
+        <div class="section-intro pb-60px">
+		<p>Новинка в магазине</p>
+			<h2>Новые <span class="section-intro__style">Смартфоны</span></h2>
+        </div>
+        <div class="owl-carousel owl-theme"  id="popularCarousel" >
+          {% for item in new_smartphones %}
+
+          <div class="card text-center card-product">
+            <div class="card-product__img">
+              <img class="card-img" src="{{ item.image.url }}" alt="">
+              <ul class="card-product__imgOverlay">
+
+                <li><button class="btn btn-warning" id="addTocart" data-book-id="{{ item.id }}">
+                  <i class="fa fa-shopping-cart"></i>
+                </button></li>
+              </ul>
+            </div>
+            <div class="card-body">
+                <p>{{ item.brand }}</p>
+                <h4 class="card-product__title"><a href="{% url 'store:smartphone' id=item.id %}">{{ item.name|text_short }} ({{ item.storage }} гб.)</a></h4>
+                <p class="card-product__price">{{ item.price }}$.</p>
+                <div class="rating">
+                  {% if item.totalreview == 0 %}
+                      <span class="totalrating">Нет отзывов</span>
+                  {% else %}
+                      {{ item.totalrating|averagerating:item.totalreview }}
+                      <span class="totalrating">{{ item.totalreview }}</span>
+                  {% endif %}
+                </div>
+            </div>
+          </div>
+
+         {% endfor %}
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section-margin calc-60px">
+      <div class="container">
+        <div class="section-intro pb-60px">
+          <p>Популярные смартфоны на рынке</p>
+          <h2>Лучшие <span class="section-intro__style">Смартфоны</span></h2>
+        </div>
+        <div class="owl-carousel owl-theme" id="bestSellerCarousel">
+          {% for item in best_smartphones %}
+
+          <div class="card text-center card-product">
+            <div class="card-product__img">
+              <img class="card-img" src="{{ item.image.url }}" alt="">
+              <ul class="card-product__imgOverlay">
+
+                <li><button class="btn btn-warning" id="addTocart" data-book-id="{{ item.id }}">
+                  <i class="fa fa-shopping-cart"></i>
+                </button></li>
+              </ul>
+            </div>
+            <div class="card-body">
+                <p>{{ item.brand }}</p>
+                <h4 class="card-product__title"><a href="{% url 'store:smartphone' id=item.id %}">{{ item.name|text_short }}</a></h4>
+                <p class="card-product__price">{{ item.price }}$.</p>
+                <div class="rating">
+                  {% if item.totalreview == 0 %}
+                      <span class="totalrating">Нет отзывов</span>
+                  {% else %}
+                      {{ item.totalrating|averagerating:item.totalreview }}
+                      <span class="totalrating">{{ item.totalreview }}</span>
+                  {% endif %}
+                </div>
+            </div>
+          </div>
+
+         {% endfor %}
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+  </main>
+<div id="snackbar"></div>
+{% endblock %}

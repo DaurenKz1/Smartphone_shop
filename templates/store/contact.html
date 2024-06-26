@@ -1,0 +1,63 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block container %}
+
+    <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-5 d-none d-sm-block">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static 'img/home/contact.jpg' %}" alt="">
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+            <div class="hero-banner__content">
+              <h5>Исследовать по магазинам - это весело</h5>
+              <h1>Свяжитесь с нами!</h1>
+              <p>Мы всегда на связи, чтобы ответить на ваши вопросы и обеспечить отличный сервис</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <section class="section-margin--small">
+    <div class="container">
+
+
+
+      <div class="row d-flex justify-content-center">
+    <div class="col-md-4 col-lg-3 mb-4 mb-md-0 flex-fill">
+        <div class="media contact-info">
+            <span class="contact-info__icon"><i class="ti-home"></i></span>
+            <div class="media-body">
+                <h3>Казахстан</h3>
+              <p>проспект. Ул. Абая, 68 (офис 203, этаж 2), Алматы</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-3 mb-4 mb-md-0 flex-fill">
+        <div class="media contact-info">
+            <span class="contact-info__icon"><i class="ti-headphone"></i></span>
+            <div class="media-body">
+                <h3><a href="tel:454545654">+7 777 777 7777</a></h3>
+                <p>С понедельника до пятницы, с 6 утра до 9 вечера</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-3 mb-4 mb-md-0 flex-fill">
+        <div class="media contact-info">
+            <span class="contact-info__icon"><i class="ti-email"></i></span>
+            <div class="media-body">
+                <h3><a href="mailto:support@colorlib.com">support@infokz.com</a></h3>
+                <p>Присылайте нам свой запрос в любое время!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+  </section>
+
+  
+  
+{% endblock %}

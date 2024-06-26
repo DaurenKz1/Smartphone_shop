@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Smartphone Shop</title>
+  {% load static %}
+
+
+  <link rel="icon" href="img/Fevicon.png" type="image/png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static  'bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'themify-icons/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'nice-select/nice-select.css' %}">
+  <link rel="stylesheet" href="{% static 'owl-carousel/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'owl-carousel/owl.carousel.min.css' %}">
+
+
+  <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+
+{% include 'store/bin/header.html' %}
+
+
+{% block container %}{% endblock %}
+
+
+
+{% include 'store/bin/footer.html' %}
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+
+  <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.2.5/jquery.bootstrap-touchspin.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.2.1/readmore.js" type="text/javascript"></script>
+  <script src="https://www.google-analytics.com/analytics.js" type="text/javascript"></script>
+  <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/skrollr.min.js' %}"></script>
+  <script src="{% static 'owl-carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'nice-select/jquery.nice-select.min.js' %}"></script>
+  <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+  <script src="{% static 'js/main2.js' %}"></script>
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            summary();
+        });
+
+        function summary(){
+            $.ajax({
+                url : "summary",
+                type : "GET",
+                success : function(data){
+                    $("#abc").html(data);
+                }
+            });
+        }
+
+        function updateCartItem(obj, id){
+            $.ajax({
+                url: "update/" + id + "/" + obj.value,
+                type: "GET",
+                data: {
+                    smartphoneid: id,
+                    quantity: obj.value
+                },
+                success: function(data){
+                    $("#" + id).html(data);
+                    summary();
+                    totalCart();
+                }
+            });
+        }
+
+
+
+    </script>
+{% endblock %}
+
+</body>
+</html>

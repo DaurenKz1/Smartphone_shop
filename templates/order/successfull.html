@@ -1,0 +1,65 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block container %}
+    <section class="cart_area">
+        <div class="container">
+          <div class="cart_inner">
+              <div class="table-responsive">
+            <div class="col-md-12 cart_info">
+                    <div class="successful-order text-center">
+                        <h3 class="page-header">Спасибо за покупку!</h3>
+                    </div>
+                   <table class="table ordered-info">
+                      <thead>
+
+                          <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Смартфон</th>
+                              <th scope="col">Имя</th>
+                              <th scope="col">Телефон</th>
+                              <th scope="col">Почта</th>
+                              <th scope="col">Адрес доставки</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <h5>{{ order.id }}</h5>
+                              </td>
+                              <td>
+                                  <h5>{{ order.totalsmartphone }}</h5>
+                              </td>
+                              <td>
+                                  <div class="media">
+
+                                      <div class="media-body">
+                                          <h5>{{ order.name }}</h5>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <h5>{{ order.phone }}</h5>
+                              </td>
+                              <td>
+                                  <h5>{{ order.email }}</h5>
+                              </td>
+                              <td>
+                                  <h5>{{ order.address }}</h5>
+                              </td>
+
+
+                          </tr>
+                      </tbody>
+                   </table>
+                <center>
+                    <div class="download-info">
+                        <a href="{% url 'order:pdf' id=order.id %}">Скачать файл</a>
+                    </div>
+                </center>
+            </div>
+            </div>
+            </div>
+            </div>
+    </section>
+{% endblock %}

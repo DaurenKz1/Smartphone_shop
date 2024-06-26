@@ -1,0 +1,47 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block container %}
+<section class="login_box_area section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>Уже есть аккаунт?</h4>
+                        <a class="button button-account" href="{% url 'store:signin' %}">Войти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner register_form_inner">
+
+                    <h3>Создать аккаунт</h3>
+                    <form class="login_form" action="{% url 'store:registration' %}" method="POST" id="register_form">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group col-md-12">
+                                <input type="{{ field.field.widget.input_type }}"
+                                       class="form-control"
+                                       id="{{ field.id_for_label }}"
+                                       name="{{ field.html_name }}"
+                                       placeholder="{{ field.label }}"
+                                       {% if field.field.required %}required{% endif %}>
+
+                                {% for error in field.errors %}
+                                    <p style="color: red;font-size: 13px">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+
+
+                        <div class="form-group col-md-12">
+                            <button type="submit" value="submit" class="button button-register w-100">Создать аккаунт</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

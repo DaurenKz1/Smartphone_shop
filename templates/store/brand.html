@@ -1,0 +1,110 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load customfunction %}
+
+{% block headermenu %}
+
+{% endblock %}
+{% block container %}
+	<section class="blog-banner-area" id="contact">
+ 				<div class="container h-100">
+					<div class="blog-banner">
+						<div class="text-center">
+							<h1> Смартфоны </h1>
+							<nav aria-label="breadcrumb" class="banner-breadcrumb">
+					<ol class="breadcrumb">
+					  <li class="breadcrumb-item"><a>Удивительные смартфоны</a></li>
+					</ol>
+				  </nav>
+						</div>
+					</div>
+			</div>
+
+			</section>
+		<section class="section-margin calc-60px">
+     <div class="container">
+    <div class="row">
+        {% for item in smartphone %}
+        <div class="col-md-3 mb-4">
+            <div class="card text-center card-product">
+                <div class="card-product__img">
+                    <img class="card-img" src="{{ item.image.url }}" alt="">
+                    <ul class="card-product__imgOverlay">
+                        <li><button id="addTocart" data-book-id="{{ item.id }}">
+                            <i class="fa fa-shopping-cart"></i>
+                        </button></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <p>{{ item.brand }}</p>
+                    <h4 class="card-product__title"><a href="{% url 'store:smartphone' id=item.id %}">{{ item.name|text_short }} ({{ item.storage }} гб.)</a></h4>
+                    <p class="card-product__price">{{ item.price }}$.</p>
+                    <div class="rating">
+                        {% if item.totalreview == 0 %}
+                            <span class="totalrating">Нет отзывов</span>
+                        {% else %}
+                            {{ item.totalrating|averagerating:item.totalreview }}
+                            <span class="totalrating">{{ item.totalreview }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+		 {% if smartphone|length > 0 %}
+			<div class="d-pagination">
+			    <ul class="pagination">
+				{% if smartphone.has_previous %}
+					<li class="page-item">
+						<a class="page-link" href="?page=1">Первый</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="?page={{ smartphone.previous_page_number }}">Назад</a>
+					</li>
+				{% endif %}
+				{% for ord in smartphone.paginator.page_range %}
+					{% if smartphone.number == ord %}
+						<li class="page-item active">
+							<span class="page-link">{{ ord }}
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+					{% elif ord > smartphone.number|add:'-3' and ord < smartphone.number|add:'3' %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{ ord }}">{{ ord }}</a>
+						</li>
+
+					{% endif %}
+
+				{% endfor %}
+				{% if smartphone.has_next %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ smartphone.next_page_number }}">Следующий</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="?page={{ smartphone.paginator.num_pages }}">Последний</a>
+					</li>
+				{% endif %}
+			    </ul>
+			</div>
+			{% else %}
+
+
+
+
+			<h3 class="text-center mt-5">Не найдены смартфоны.</h3>
+
+			{% endif %}
+
+</div>
+
+
+
+
+		</section>
+<div id="snackbar"></div>
+
+
+{% endblock %}

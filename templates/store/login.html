@@ -1,0 +1,50 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block container %}
+<section class="login_box_area section-margin">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<div class="hover">
+							<h4>Вы новичок на нашем сайте?</h4>
+							<a class="button button-account" href="{% url 'store:registration' %}">Создать аккаунт</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+					{% if messages %}
+					<div class="messages">
+
+					</div>
+					{% endif %}
+						<h3>Войдите в систему</h3>
+						<form class="row login_form" action="#/" id="contactForm" method="POST" >
+							{% csrf_token %}
+
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control"  name="user" placeholder="Имя пользователя" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+                                {% if messages %}
+                                {% for message in messages %}
+                                    <p style="color: red;font-size: 13px">{{ message }}</p>
+                                {% endfor %}
+                                {% endif %}
+
+
+							</div>
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" name="pass" placeholder="Пароль" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+							</div>
+
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit" class="button button-login w-100">Войти</button>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load customfunction %}
+
+
+{% block container %}
+ <section class="cart_area">
+      <div class="container">
+          <div class="cart_inner">
+
+              <div class="table-responsive">
+                   {% if messages %}
+					<div class="messages">
+					    {% for message in messages %}
+					    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+					    {% endfor %}
+					</div>
+					{% endif %}
+                  <table class="table">
+                      <thead>
+
+
+                          <tr>
+                              <th scope="col">Продукт</th>
+                              <th scope="col">Цена</th>
+                              <th scope="col">Количество</th>
+                              <th scope="col">Итого</th>
+                              <th scope="col">Удалить</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {% for item in cart %}
+                         {% with smartphone=item.smartphone %}
+                          <tr>
+                              <td>
+                                  <div class="media">
+                                      <div class="d-flex cart_coverpage">
+                                        <a href=""><img src="{{ smartphone.image.url }}" alt=""></a>
+                                      </div>
+                                      <div class="media-body">
+                                          <p>{{ smartphone.name }} ({{ smartphone.storage}}гб)</p>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <h5>{{ smartphone.price }}$</h5>
+                              </td>
+                              <td class="cart_quantity">
+                                    <input type="text" name="qty" value="{{ item.quantity }}" onchange="updateCartItem(this,{{ smartphone.id }})" >
+
+
+                              </td>
+
+                              <td>
+                                  <h5 id="{{ smartphone.id }}">{{ item.total_price }}$</h5>
+                              </td>
+                              <td>
+                                <a href="{% url 'cart:cart_remove' smartphoneid=smartphone.id %}" class="btn btn-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                          </tr>
+                      <tr class="out_button_area">
+                              <td class="d-none-l">
+
+                              </td>
+                              <td class="">
+
+                              </td>
+                              <td>
+
+                              </td>
+                              <td>
+                                  <div class="checkout_btn_inner d-flex align-items-center">
+										  <a class="gray_btn" href="{% url 'store:index' %}">Продолжить покупки</a>
+                                      <a class="primary-btn ml-2" href="{% url 'order:order_create' %}">Переходить к оформлению заказа</a>
+                                  </div>
+                              </td>
+                          </tr>
+                      {% endwith %}
+                {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </section>
+{% endblock %}
+

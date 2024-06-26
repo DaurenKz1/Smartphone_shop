@@ -1,0 +1,130 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load customfunction %}
+{% block container %}
+	<div class="product_image_area">
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+						<div class="single-prd-item">
+							<img class="card-img" src="{{ smartphone.image.url }} " alt="">
+						</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+						<h3>{{ smartphone.name }}</h3>
+						<h2>{{ smartphone.price }}$</h2>
+						<ul class="list">
+							<li><a class="active"><span><b>Категория:</b></span> {{ smartphone.category }}</a></li>
+							<li><a ><span><b>Количество:</b></span> {{ smartphone.stock }}</a></li>
+							<li><a ><span><b>Размер экрана:</b></span> {{ smartphone.screen_size }}</a></li>
+							<li><a ><span><b>Емкость батареи:</b></span> {{ smartphone.battery_capacity }}мАч</a></li>
+							<li><a ><span><b>ОЗУ:</b></span> {{ smartphone.ram }}ГБ</a></li>
+							<li><a ><span><b>Память:</b></span> {{ smartphone.storage }}ГБ</a></li>
+							<li><a ><span><b>Камера:</b></span> {{ smartphone.camera_resolution }}МП</a></li>
+							<li><a ><span><b>Процессор:</b></span> {{ smartphone.processor }}</a></li>
+						</ul>
+						<p>{{ smartphone.description }}</p>
+						<div class="product_count">
+							<a class="button primary-btn" id="addTocart" data-book-id="{{ smartphone.id }}" href="#">
+								Добавить в корзину
+							</a>
+
+						</div>
+
+					</div>
+				</div>
+				 <div class="col-sm-9 mt-5" id="getreview">
+					{% if constants %}
+						<div class="messages">
+						    {% for message in messages %}
+						    <p{% if messages.tags %} class="{{ messages.tags }}"{% endif %}>{{ messages }}</p>
+						    {% endfor %}
+						</div>
+					{% endif %}
+					<div class="rating-stars text-left">
+						<ul id="stars">
+						  <li id="azaa" class="star" data-value="1"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azbb" class="star" data-value="2"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azcc" class="star" data-value="3"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azdd" class="star" data-value="4"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azee" class="star" data-value="5"> <i class="fa fa-star fa-fw"></i> </li>
+						</ul>
+					</div>
+				 {% if user.is_authenticated %}
+				   <form action="" method="POST" class="needs-validation" novalidate="">
+				   	{% csrf_token %}
+
+						<div class="form-group">
+							{{ form.review_star|as_crispy_field }}
+						</div>
+						<div class="form-group">
+							{{ form.review_text|as_crispy_field }}
+						</div>
+						<div class="form-group">
+							<button class="btn btn-warning" type="submit" style="color: #fff">Submit </button>
+						</div>
+				   </form>
+				   {% else %}
+				   	<p>Пожалуйста, <a href="{% url 'store:signin' %}">войдите</a> или <a href="{% url 'store:registration' %}">зарегистрируйтесь</a>, чтобы оставить отзыв.</p>
+				   {% endif %}
+					{% for lreview in related_reviews %}
+					<div class="card">
+						<div class="card-body">
+							<b> {{ lreview.customer }} </b>
+							<div class='rating'>
+								{{ lreview.review_star|averagerating:1 }}
+							</div>
+							<div class="given_review_date">
+								<span style="color:#555;"> {{ lreview.created }}</span>
+							</div>
+							<p style="margin-top: 10px"> {{ lreview.review_text }} </p>
+						 </div>
+					</div>
+					{% endfor %}
+
+					<div class="d-pagination">
+					    <ul class="pagination">
+						{% if related_reviews.has_previous %}
+							<li class="page-item">
+								<a class="page-link" href="?page=1">Первый</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="?page={{ related_reviews.previous_page_number }}">Предыдущий</a>
+							</li>
+						{% endif %}
+						{% for ord in related_reviews.paginator.page_range %}
+							{% if related_reviews.number == ord %}
+								<li class="page-item active">
+									<span class="page-link">{{ ord }}
+										<span class="sr-only">(current)</span>
+									</span>
+								</li>
+							{% elif ord > related_reviews.number|add:'-3' and ord < related_reviews.number|add:'3' %}
+								<li class="page-item">
+									<a class="page-link" href="?page={{ ord }}">{{ ord }}</a>
+								</li>
+
+							{% endif %}
+
+						{% endfor %}
+						 {% if related_reviews.has_next %}
+							<li class="page-item">
+								<a class="page-link" href="?page={{ related_reviews.next_page_number }}">Следующий</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="?page={{ related_reviews.paginator.num_pages }}">Последний</a>
+							</li>
+						{% endif %}
+					    </ul>
+					</div>
+				</div>
+			</div>
+			<div id="snackbar"></div>
+
+		</div>
+
+	</div>
+
+{% endblock %}
